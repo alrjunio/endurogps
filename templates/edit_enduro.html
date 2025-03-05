@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Editando Enduro</h2>
+<form method="post" action="/enduros/{{ enduro.id }}/update/">
+    <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ enduro.name }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="location" class="form-label">Local</label>
+        <input type="text" class="form-control" id="location" name="location" value="{{ enduro.location }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label">Data</label>
+        <input type="date" class="form-control" id="date" name="date" value="{{ enduro.date }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="hora_largada" class="form-label">Hora da largada</label>
+        <input type="time" class="form-control" id="hora_largada" name="hora_largada" value="{{ enduro.hora_largada }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">alterar</button>
+    <a href="/enduros/{{ enduro.id }}" class="btn btn-primary" >Dados do enduro</a>
+</form>
+<div><td>
+
+</td>
+</div>
+{% endblock %}

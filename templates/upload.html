@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enduro de Regularidade</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enduro de Regularidade</h1>
+    
+    <!-- Formulário de upload de arquivo TCX -->x
+    <form id="uploadForm" enctype="multipart/form-data" action="/enduros/{{ enduro.id }}/competitors/{{ competitor.id }}/upload/upload_tcx/" method="post">
+        <input type="file" name="file" id="fileInput" accept=".tcx" required>
+        <button type="submit">Enviar Arquivo TCX</button>
+    </form>
+
+    <h2>Resultados da Comparação</h2>
+    <table id="resultadosTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Competidor</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Tempo</th>
+                <th>tempo (m)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if resultados %}
+                {% for resultado in resultados %}
+                <tr>
+                    <td>{{ resultado.id }}</td>
+                    <td>{{ resultado.competitor_id }}</td>
+                    <td>{{ resultado.latitude }}</td>
+                    <td>{{ resultado.longitude }}</td>
+                    <td>{{ resultado.time }}</td>
+                    <td>{{ resultado.starttime }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">Nenhum resultado disponível.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>

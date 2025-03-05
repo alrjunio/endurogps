@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Competidores no Checkpoint: {{ checkpoint.name }}</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome do Competidor</th>
+            <th>Placa</th>
+            <th>Categoria</th>
+            <th>Pc</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for competitor in competitors %}
+        <tr>
+            <td>{{ competitor.id }}</td>
+            <td>{{ competitor.name }}</td>
+            <td>{{ competitor.placa }}</td>
+            <td>{{ competitor.category_id }}</td>
+            <td>{{ competitor.pc01 }}</td>
+            <td>
+                <a href="/enduros/{{ enduro.id }}/competitors/{{ competitor.id }}/pc/edit/" class="btn btn-secondary">
+                    Registrar Tempo Atual
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="/enduros/{{ enduro.id }}/" class="btn btn-secondary">Voltar</a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let now = new Date();
+        let formattedTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+
+        document.querySelectorAll('input[name="largada"]').forEach(input => {
+            input.value = formattedTime;
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Competidores do Enduro: {{ enduro.name }}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Checkpoint</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for competitor in competitors %}
+        <tr>
+            <td>{{ competitor.id }}</td>
+            <td>{{ competitor.name }}</td>
+            <td>{{ checkpoint.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="/enduros/{{ enduro.id }}/" class="btn btn-secondary">Voltar</a>
+{% endblock %}

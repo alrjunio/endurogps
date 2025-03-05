@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Adicionando Competidor</h2>
+<form method="post" action="/enduros/{{enduro.id}}/competitors/">
+    
+    <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="placa" class="form-label">Placa</label>
+        <input type="text" class="form-control" id="placa" name="placa" required>
+    </div>
+    <div class="mb-3">
+        <label for="categories_id" class="form-label">Escolha a Categoria</label>
+        <select class="form-control" id="categories_id" name="categories_id" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+    <a href="/enduros/1/" class="btn btn-secondary">Voltar</a>
+</form>
+{% endblock %}

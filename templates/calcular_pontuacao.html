@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Pontuação do Competidor</h2>
+<p><strong>Nome:</strong> {{ competitor.name }}</p>
+<p><strong>Placa:</strong> {{ competitor.placa }}</p>
+<p><strong>Placa:</strong> {{ competitor.category_id }}</p>
+<p><strong>Pontuação:</strong> {{ pontuacao }}</p>
+
+<form method="post" action="/enduros/{{ competitor.enduro.id }}/competitors/{{ competitor.id }}/calculate_score/">
+    <button type="submit">Calcular Pontuação</button>
+</form>
+
+<a href="/enduros/{{ competitor.enduro_id }}/competitors/classification/">Ver classificação geral</a>
+{% endblock %}

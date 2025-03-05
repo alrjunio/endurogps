@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" action="/enduros/">
+    <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="name" name="name"  required>
+    </div>
+    <div class="mb-3">
+        <label for="location" class="form-label">Localização</label>
+        <input type="text" class="form-control" id="location" name="location" required>
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label">Data</label>
+        <input type="date" class="form-control" id="date" name="date"  value="{{ enduro.date if enduro else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="hora_largada" class="form-label">Hora da largada</label>
+        <input type="time" step ="1" class="form-control" id="hora_largada" name="hora_largada"  required>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar Enduro</button>
+</form>
+<a href="/" class="btn btn-secondary mt-3">Voltar</a>
+
+{% endblock %}
+
+

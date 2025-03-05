@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <h1 class="display-4 mb-4">Resultados do Enduro</h1>
+            <p class="lead mb-4">
+                Confira os tempos dos competidores em relação aos checkpoints e os pontos perdidos.
+            </p>
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Classificação</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Competidor</th>
+                                    <th>Placa</th>
+                                    <th>Categoria</th>
+                                    {% for i in range(1, num_checkpoints + 1) %}
+                                        <th>PC{{ i }} (Tempo)</th>
+                                        <th>PC{{ i }} (Pontos Perdidos)</th>
+                                    {% endfor %}
+                                    <th>Total de Pontos Perdidos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for competitor in competitors %}
+                                    <tr>
+                                        <td>{{ competitor.name }}</td>
+                                        <td>{{ competitor.placa }}</td>
+                                        <td>{{ competitor.category.name }}</td>
+                                        {% set total_pontos_perdidos = 0 %}  {# Inicializa a variável para acumular os pontos perdidos #}
+                                        {% set hora_largada = 32400 %}  {# Hora de largada em segundos (9:30:00) #}
+                                        {% set competitor_adjustment = (competitor.id - 1) * 60 %}  {# Ajuste de 1 minuto (60 segundos) por competidor #}
+                                        {% for i in range(1, num_checkpoints + 1) %}
+                                            <td>
+                                                {% set pc_time = competitor['pc' ~ i] %}
+                                                {% if pc_time is not none %}
+                                                    {% set pc_time_seconds = time_to_seconds(pc_time) %}
+                                                    {% set checkpoint_time = checkpoints[i-1].time + hora_largada + competitor_adjustment %}  {# Ajuste por competidor #}
+                                                    {% set diff = checkpoint_time - pc_time_seconds %}
+                                                    {% if diff > 0 %}
+                                                        <span class="text-danger">Atrasou {{ diff }} segundos</span>
+                                                    {% elif diff < 0 %}
+                                                        <span class="text-success">Adiantou {{ diff|abs }} segundos</span>
+                                                    {% else %}
+                                                        <span class="text-primary">Passou no horário</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="text-warning">Não passou</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% set pc_time = competitor['pc' ~ i] %}
+                                                {% if pc_time is not none %}
+                                                    {% set pc_time_seconds = time_to_seconds(pc_time) %}
+                                                    {% set checkpoint_time = checkpoints[i-1].time + hora_largada + competitor_adjustment %}  {# Ajuste por competidor #}
+                                                    {% set diff = checkpoint_time - pc_time_seconds %}
+                                                    {% if diff < 0 %}
+                                                    {% set pontos_perdidos = diff|abs * 3 %}  {# Penalidade de 1 ponto por segundo adiantado #}
+                                                    <span class="text-success">{{ pontos_perdidos }} pontos</span>
+                                        
+                                                {% elif diff > 8 %}
+                                                    {% set pontos_perdidos = (diff - 8) * 1 %}  {# Penalidade de 1 ponto por segundo atrasado além de 8s #}
+                                                    <span class="text-danger">{{ pontos_perdidos }} pontos</span>
+                                        
+                                                {% else %}
+                                                    {% set pontos_perdidos = 0 %}  {# Dentro da tolerância, sem penalização #}
+                                                    <span class="text-primary">0 pontos</span>
+                                                {% endif %}
+                                                {% else %}
+                                                    {% set pontos_perdidos = 1800 %}  {# Penalidade por não passar no checkpoint #}
+                                                    <span class="text-warning">1800 pontos</span>
+                                                {% endif %}
+                                                {% set total_pontos_perdidos = pontos_perdidos %}  {# Acumula os pontos perdidos #}
+                                            </td>
+                                        {% endfor %}
+                                        <td>
+                                            <strong>{{ total_pontos_perdidos }} pontos</strong>  {# Exibe o total de pontos perdidos #}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

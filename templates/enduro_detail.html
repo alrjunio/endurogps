@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Detalhes do Enduro: {{ enduro.name }}</h2>
+<p><strong>Localização:</strong> {{ enduro.location }}</p>
+<p><strong>Data:</strong> {{ enduro.date }}</p>
+
+<div class="mt-4">
+    <a href="/enduros/{{ enduro.id }}/competitors/create/" class="btn btn-info">Adicionar Competidor</a>
+    <a href="/enduros/{{ enduro.id }}/checkpoints/create/" class="btn btn-info">Adicionar Checkpoint</a>
+    <a href="/enduros/{{ enduro.id }}/category/create/" class="btn btn-info">Adicionar Categoria</a>
+    <a href="/enduros/" class="btn btn-info">Voltar para enduros</a>
+</div>
+
+<div class="mt-4">
+    <h3>Listas</h3>
+    <a href="/enduros/{{ enduro.id }}/competitors/" class="btn btn-secondary">Lista de Competidores</a> 
+    <a href="/enduros/{{ enduro.id }}/categories/" class="btn btn-secondary">Lista de categorias</a>
+    <a href="/enduros/{{ enduro.id }}/listalargada/" class="btn btn-secondary">Lista de Largada</a>
+    <a href="/enduros/{{ enduro.id }}/checkpoints/" class="btn btn-secondary">Lista de Checkpoint</a>
+    <a href="/enduros/{{ enduro.id }}/tempos/" class="btn btn-secondary">Lista de Tempos</a>
+    <a href="/resultados/{{enduro.id}}/" class="btn btn-secondary">Resultados</a>
+    <a href="/enduros/tabela/" class="btn btn-secondary">Classificaçao</a>
+
+    
+    
+    
+    
+
+</div>
+
+<div class="mt-4">
+    <h3>Inserindo os tempos</h3>
+        <a href="/enduros/{{enduro.id}}/checkpoints/1/competitors/" class="btn btn-info">Inserir tempo</a>
+            
+            
+    
+                    
+        
+    
+</div>
+
+{% endblock %}x

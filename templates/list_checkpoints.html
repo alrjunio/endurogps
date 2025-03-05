@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Checkpoints do Enduro: {{ enduro.name }}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome do Checkpoint</th>
+            <th>Tempo (HH:MM:SS)</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Raio </th>
+            <th>Ações</th> <!-- Adicionando cabeçalho para ações -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for checkpoint in checkpoints %}
+        <tr>
+            <td>{{ checkpoint.id }}</td>
+            <td>{{ checkpoint.name }}</td>
+            <td>{{ checkpoint.formatted_time }}</td>  
+            <td>{{ checkpoint.latitude }}</td> 
+            <td>{{ checkpoint.longitude }}</td> 
+            <td>{{ checkpoint.raio }}</td> 
+            <td>
+                <a href="/enduros/{{ enduro.id }}/checkpoints/{{ checkpoint.id }}/edit/" class="btn btn-warning btn-sm">Editar</a>
+                <form action="/enduros/{{ enduro.id }}/checkpoints/{{ checkpoint.id }}/delete/" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="/enduros/{{ enduro.id }}/" class="btn btn-secondary">Voltar</a>
+{% endblock %}

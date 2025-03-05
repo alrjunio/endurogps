@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Editando Competidor</h2>
+<form method="post" action="/enduros/{{enduro.id}}/competitors/{{competitor.id}}/pc/update/">
+    <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ competitor.name }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="placa" class="form-label">Placa</label>
+        <input type="text" class="form-control" id="placa" name="placa" value="{{ competitor.placa }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="categories_id" class="form-label">Categoria</label>
+        <select class="form-control" id="categories_id" name="categories_id" required>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == competitor.category.id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+                 <div class="mb-3">
+               
+            {% endfor %}
+        </select>
+        <div class="mb-3">
+        <label for="pc" class="form-label">PC</label>
+        <input type="number" id="pc" name="pc" required>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let now = new Date();
+                let formattedTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+        
+                document.getElementById("horaAtual").value = formattedTime;
+            });
+        </script>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar</button>
+</form>
+{% endblock %}

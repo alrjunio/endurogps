@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competidores</title>
+    <script>
+        async function loadCompetitors() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const checkpoint_id = urlParams.get("checkpoint_id");
+
+            // Busca a lista de competidores
+            const response = await fetch(`http://127.0.0.1:8000/checkpoints/${checkpoint_id}/competitors/`);
+            const competitors = await response.json();
+            const container = document.getElementById("competitor-buttons");
+
+            // Cria um botão para cada competidor
+            competitors.forEach(c => {
+                const button = document.createElement("button");
+                button.innerText = c.name;
+                button.onclick = async () => {
+                    // Solicita o tempo ao usuário
+                    const time = prompt(`Digite o tempo (em segundos) para ${competitors.name}:`);
+                    if (time) {
+                        // Envia o tempo para o backend
+                        const result = await fetch(
+                            `http://127.0.0.1:8000/enduros/${enduro.id}/checkpoints/${checkpoint.id}/competitors/${competitors.id}/`,
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/x-www-form-urlencoded",
+                                },
+                                body: `time=${time}`
+                            }
+                        );
+
+                        if (result.ok) {
+                            alert(`Tempo registrado com sucesso para ${c.name}!`);
+                        } else {
+                            alert("Erro ao registrar o tempo.");
+                        }
+                    }
+                };
+                container.appendChild(button);
+            });
+        }
+
+        window.onload = loadCompetitors;
+    </script>
+</head>
+<body>
+    <h1>Selecione um Competidor</h1>
+    <div id="competitor-buttons"></div>
+</body>
+</html>

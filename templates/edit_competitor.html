@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Editando Competidor</h2>
+<form method="post" action="/enduros/{{ enduro.id }}/competitors/{{ competitor.id }}/update/">
+    <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ competitor.name }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="placa" class="form-label">Placa</label>
+        <input type="text" class="form-control" id="placa" name="placa" value="{{ competitor.placa }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="categories_name" class="form-label">Categoria</label>
+        <select class="form-control" id="categories_name" name="categories_name" required>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == competitor.category.id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Alterar</button>
+</form>
+{% endblock %}

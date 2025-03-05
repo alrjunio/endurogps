@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Atualizar Tempos dos Checkpoints para {{ competitor.name }}</h2>
+
+<p><strong>Placa:</strong> {{ competitor.placa }}</p>
+<p><strong>Categoria:</strong> {{ competitor.category.name }}</p>
+
+<hr>
+
+{% for i in range(1, 13) %}
+    <form method="post" action="/enduros/{{ enduro.id }}/checkpoints/{{ i }}/competitors/{{ competitor.id }}/pc/update/">
+        <div class="mb-3">
+            <label for="pc{{ '%02d'|format(i) }}" class="form-label">Tempo PC{{ '%02d'|format(i) }}</label>
+            <input type="text" class="form-control pc-time" id="pc{{ '%02d'|format(i) }}" 
+                   name="pc{{ '%02d'|format(i) }}" 
+                   value="{{ competitor['pc' + '%02d'|format(i)] or '' }}" required pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$" placeholder="HH:MM:SS">
+        </div>
+        <button type="button" class="btn btn-primary set-time-btn" data-target="pc{{ '%02d'|format(i) }}">
+            Atualizar com Hora Atual
+        </button>
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </form>
+    <hr>
+{% endfor %}
+
+<a href="/enduros/{{ enduro.id }}/" class="btn btn-secondary">Voltar</a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Função para obter a hora atual no formato HH:MM:SS
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Adicionar evento para preencher a hora ao clicar no botão
+        document.querySelectorAll('.set-time-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).value = getCurrentTime();
+            });
+        });
+    });
+</script>
+
+{% endblock %}
